@@ -7,33 +7,21 @@ use PDOException;
 
 final class Database
 {
-    private static ?PDO $connection = null;
+    public function __construct(protected $db = null)
+    {
+        $parametros = 'mysql:host=localhost;dbname=Loja;charset=utf8mb4';
+
+        try {
+            $this->db = new PDO($parametros, 'root', '');
+        } catch (PDOException $e) {
+            echo $e->getCode();
+            echo $e->getMessage();
+            die('Tente mais tarde!!!');
+        }
+    }
 
     public static function getConnection(): PDO
     {
-        if (self::$connection === null) {
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            $db = $config['database'];
-
-            $dsn = sprintf(
-                'mysql:host=%s;port=%s;dbname=%s;charset=%s',
-                $db['host'],
-                $db['port'],
-                $db['name'],
-                $db['charset']
-            );
-
-            try {
-                self::$connection = new PDO($dsn, $db['user'], $db['password'], [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                ]);
-            } catch (PDOException $exception) {
-                throw new PDOException('Erro ao conectar ao banco de dados.', (int) $exception->getCode(), $exception);
-            }
-        }
-
-        return self::$connection;
+        return (new self())->db;
     }
 }

@@ -1,3 +1,11 @@
+<?php
+
+$saldo = $saldo ?? 0;
+$receitas = $receitas ?? 0;
+$despesas = $despesas ?? 0;
+
+?>
+
 <section class="panel">
     <h1>Dashboard</h1>
     <p class="muted">Resumo financeiro do usuario.</p>

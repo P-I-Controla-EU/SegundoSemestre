@@ -17,6 +17,7 @@
             <a href="/categoria">Categorias</a>
             <a href="/planos">Planos</a>
             <a href="/usuario/perfil">Perfil</a>
+            <a href="/usuario/perfil">Sair</a>
         </nav>
     </header>
     <main class="container">
