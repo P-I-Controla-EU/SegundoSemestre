@@ -16,7 +16,7 @@ abstract class Controller
             return;
         }
 
-        require dirname(__DIR__, 2) . '/public/views/shared/header.php';
+        require dirname(__DIR__, 2) . '/public/views/shared/header_login.php';
         require $viewPath;
         require dirname(__DIR__, 2) . '/public/views/shared/footer.php';
     }

@@ -1,4 +1,3 @@
-
 <header class="site-header">
     <div class="container header-container">
         <a href="index.php" class="logo-link">
@@ -13,10 +12,7 @@
             <a href="contato.php" class="nav-link">Contato</a>
         </nav>
         <div class="header-actions">
-            <a href="login.php" class="btn-text d-none d-sm-inline">Entrar</a>
-            <a href="cadastro.php" class="btn btn-primary">
-                Começar grátis <i data-lucide="arrow-right" class="icon-sm"></i>
-            </a>
+            <a href="login.php" class="btn-text d-none d-sm-inline">Sair</a>
         </div>
     </div>
 </header>
