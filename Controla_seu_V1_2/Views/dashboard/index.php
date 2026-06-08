@@ -12,6 +12,7 @@ if (!isset($totalReceitas)) {
   <title>Dashboard - Controla$EU</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon_io/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -87,18 +88,26 @@ if (!isset($totalReceitas)) {
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card border-0 rounded-4 shadow-card p-4 h-100" style="cursor: pointer;" onclick="openModalSaldo()">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="icon-box <?= $saldoGeral >= 0 ? 'gradient-sky' : 'bg-danger' ?> shadow-glow" style="width: 48px; height: 48px;">
+      <div class="card border-0 rounded-4 shadow-card p-4 h-100">
+        <div class="d-flex align-items-center gap-3 mb-2">
+          <div class="icon-box gradient-sky shadow-glow" style="width: 48px; height: 48px;">
             <i data-lucide="piggy-bank" class="text-white"></i>
           </div>
           <div>
-            <small class="text-muted">
-              Saldo Geral
-              <i data-lucide="pencil" style="width: 14px; height: 14px; vertical-align: middle; opacity: 0.5;"></i>
-            </small>
+            <small class="text-muted">Saldo Total</small>
             <h3 class="mb-0 <?= $saldoGeral >= 0 ? 'text-success' : 'text-danger' ?>">R$ <?= number_format($saldoGeral, 2, ',', '.') ?></h3>
           </div>
+        </div>
+        <hr class="my-2">
+        <div class="d-flex justify-content-between small">
+          <span class="text-muted"><i data-lucide="target" style="width: 12px; height: 12px;"></i> Reservado p/ metas</span>
+          <strong class="text-primary">R$ <?= number_format($totalReservadoMetas, 2, ',', '.') ?></strong>
+        </div>
+        <div class="d-flex justify-content-between small mt-1">
+          <span class="text-muted">Disponível</span>
+          <strong class="<?= ($saldoGeral - $totalReservadoMetas) >= 0 ? 'text-success' : 'text-danger' ?>">
+            R$ <?= number_format($saldoGeral - $totalReservadoMetas, 2, ',', '.') ?>
+          </strong>
         </div>
       </div>
     </div>
@@ -202,6 +211,56 @@ if (!isset($totalReceitas)) {
     </div>
   </div>
 
+  <?php if (count($metas) > 0): ?>
+  <div class="row g-4 mb-5">
+    <div class="col-12">
+      <div class="card border-0 rounded-4 shadow-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0">Minhas Metas</h5>
+          <a href="index.php?controle=MetaController&metodo=index" class="btn btn-sm btn-outline-primary">Gerenciar</a>
+        </div>
+        <div class="row g-3">
+          <?php foreach ($metas as $m): ?>
+            <?php
+              $progresso = $m->valor_objetivo > 0 ? min(100, round(($m->valor_atual / $m->valor_objetivo) * 100)) : 0;
+              $statusClass = match ($m->status_meta) {
+                'Concluída' => 'bg-success',
+                'Cancelada' => 'bg-danger',
+                'Não concluída' => 'bg-warning',
+                default => 'bg-primary'
+              };
+            ?>
+            <div class="col-md-4">
+              <div class="border rounded-4 p-3 h-100">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h6 class="mb-0 fw-semibold small"><?= htmlspecialchars($m->nome) ?></h6>
+                  <span class="badge <?= $statusClass ?> text-white" style="font-size: 0.65rem;"><?= htmlspecialchars($m->status_meta) ?></span>
+                </div>
+                <div class="d-flex justify-content-between mb-1" style="font-size: 0.85rem;">
+                  <span class="fw-medium">R$ <?= number_format($m->valor_atual, 2, ',', '.') ?></span>
+                  <span class="text-muted">R$ <?= number_format($m->valor_objetivo, 2, ',', '.') ?></span>
+                </div>
+                <div class="progress" style="height: 8px; border-radius: 9999px;">
+                  <div class="progress-bar <?= $progresso >= 100 ? 'bg-success' : 'bg-primary' ?>"
+                       role="progressbar" style="width: <?= $progresso ?>%; border-radius: 9999px;">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-1">
+                  <small class="text-muted"><?= $progresso ?>%</small>
+                  <button type="button" class="btn btn-sm btn-outline-primary px-2 py-0" style="font-size: 0.75rem;"
+                          onclick="openModalMeta(<?= $m->id_meta ?>, '<?= htmlspecialchars($m->nome, ENT_QUOTES) ?>', <?= $m->valor_atual ?>)">
+                    <i data-lucide="plus" style="width: 12px; height: 12px;"></i> Atualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php endif; ?>
+
   <div class="card border-0 rounded-4 shadow-card p-4">
     <h5 class="mb-4">Transações Recentes</h5>
     <?php if (count($transacoesRecentes) > 0): ?>
@@ -243,40 +302,14 @@ if (!isset($totalReceitas)) {
   </div>
 </main>
 
-<div class="modal fade" id="modalSaldo" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 rounded-4 shadow-card">
-      <div class="modal-header border-0">
-        <h5 class="modal-title">Ajustar Saldo Geral</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <form action="index.php?controle=DashboardController&metodo=definirSaldo" method="POST">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="saldo" class="form-label">Valor do saldo</label>
-            <div class="input-group">
-              <span class="input-group-text">R$</span>
-              <input type="text" class="form-control" id="saldo" name="saldo"
-                     value="<?= number_format($saldoGeral, 2, ',', '.') ?>"
-                     required>
-            </div>
-            <div class="form-text">Defina o saldo inicial ou ajuste o valor atual.</div>
-          </div>
-        </div>
-        <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/script.js"></script>
 <script>
-function openModalSaldo() {
-  var modal = new bootstrap.Modal(document.getElementById('modalSaldo'));
+function openModalMeta(id, nome, valorAtual) {
+  document.getElementById('metaId').value = id;
+  document.getElementById('metaNomeDisplay').textContent = nome;
+  document.getElementById('metaValor').value = valorAtual.toFixed(2).replace('.', ',');
+  var modal = new bootstrap.Modal(document.getElementById('modalMeta'));
   modal.show();
 }
 
@@ -333,5 +366,34 @@ document.addEventListener('DOMContentLoaded', function() {
   lucide.createIcons();
 });
 </script>
+<div class="modal fade" id="modalMeta" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-card">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Atualizar Meta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form action="index.php?controle=MetaController&metodo=atualizarValor" method="POST">
+        <input type="hidden" name="id_meta" id="metaId">
+        <div class="modal-body">
+          <p class="mb-3"><strong id="metaNomeDisplay"></strong></p>
+          <div class="mb-3">
+            <label for="metaValor" class="form-label">Valor Atual (R$)</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input type="text" class="form-control" id="metaValor" name="valor_atual" required>
+            </div>
+            <div class="form-text">Atualize o valor economizado até o momento.</div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

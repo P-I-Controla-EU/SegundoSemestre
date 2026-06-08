@@ -5,12 +5,13 @@
             <span class="logo-text">Controla$EU</span>
         </a>
         <nav class="site-nav">
-            <a href="index.php?controle=DashboardController&metodo=index" class="nav-link">Dashboard</a>
-            <a href="index.php?controle=CategoriaController&metodo=index" class="nav-link">Categorias</a>
-            <a href="index.php?controle=DespesaController&metodo=index" class="nav-link">Despesas</a>
-            <a href="index.php?controle=ReceitaController&metodo=index" class="nav-link">Receitas</a>
-            <a href="index.php?controle=HistoricoController&metodo=index" class="nav-link">Histórico</a>
-            <a href="index.php?controle=PlanosController&metodo=index" class="nav-link">Gerenciar Assinatura</a>
+            <a href="index.php?controle=DashboardController&metodo=index" class="nav-link"><i data-lucide="layout-dashboard" class="icon-sm"></i> Dashboard</a>
+            <a href="index.php?controle=CategoriaController&metodo=index" class="nav-link"><i data-lucide="folder" class="icon-sm"></i> Categorias</a>
+            <a href="index.php?controle=DespesaController&metodo=index" class="nav-link"><i data-lucide="arrow-down" class="icon-sm"></i> Despesas</a>
+            <a href="index.php?controle=ReceitaController&metodo=index" class="nav-link"><i data-lucide="arrow-up" class="icon-sm"></i> Receitas</a>
+            <a href="index.php?controle=MetaController&metodo=index" class="nav-link"><i data-lucide="target" class="icon-sm"></i> Metas</a>
+            <a href="index.php?controle=HistoricoController&metodo=index" class="nav-link"><i data-lucide="clock" class="icon-sm"></i> Histórico</a>
+            <a href="index.php?controle=PlanosController&metodo=index" class="nav-link"><i data-lucide="credit-card" class="icon-sm"></i> Gerenciar Assinatura</a>
         </nav>
         <div class="header-actions">
             <a href="index.php?controle=AuthController&metodo=logout" class="btn-text d-none d-sm-inline">Sair</a>

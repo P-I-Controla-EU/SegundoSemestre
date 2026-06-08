@@ -3,6 +3,7 @@ require_once "Models/Conexao.class.php";
 require_once "Models/ReceitaDAO.class.php";
 require_once "Models/DespesaDAO.class.php";
 require_once "Models/UsuarioDAO.class.php";
+require_once "Models/MetaDAO.class.php";
 
 class DashboardController
 {
@@ -27,13 +28,6 @@ class DashboardController
         $totalDespesas = $despesaDAO->totalDoMes($pessoaId);
 
         $saldoMes = $totalReceitas - $totalDespesas;
-
-        $usuarioDAO = new UsuarioDAO();
-        $usuario = $usuarioDAO->buscarPorEmail($_SESSION["email"]);
-        $saldoInicial = 0;
-        if (!empty($usuario)) {
-            $saldoInicial = floatval($usuario[0]->saldo);
-        }
 
         $conexao = new Conexao();
 
@@ -91,7 +85,16 @@ class DashboardController
         $totalReceitasGeral = floatval($totais->total_receitas ?? 0);
         $totalDespesasGeral = floatval($totais->total_despesas ?? 0);
 
-        $saldoGeral = $saldoInicial + $totalReceitasGeral - $totalDespesasGeral;
+        $saldoGeral = $totalReceitasGeral - $totalDespesasGeral;
+
+        $metaDAO = new MetaDAO();
+        $metas = $metaDAO->listar($pessoaId);
+        $totalReservadoMetas = 0;
+        foreach ($metas as $m) {
+            if ($m->status_meta === "Em andamento") {
+                $totalReservadoMetas += floatval($m->valor_atual);
+            }
+        }
 
         $conexao->db = null;
 
@@ -100,17 +103,7 @@ class DashboardController
 
     public function definirSaldo()
     {
-        $this->verificarAuth();
-        $pessoaId = $_SESSION["id_pessoa"];
-        $novoSaldo = floatval(str_replace(",", ".", $_POST["saldo"] ?? 0));
-
-        $usuarioDAO = new UsuarioDAO();
-        if ($usuarioDAO->atualizarSaldo($pessoaId, $novoSaldo)) {
-            $_SESSION["mensagem_sucesso"] = "Saldo atualizado com sucesso!";
-        } else {
-            $_SESSION["mensagem_erro"] = "Erro ao atualizar saldo.";
-        }
-
+        $_SESSION["mensagem_erro"] = "O saldo agora e calculado automaticamente com base nas receitas e despesas.";
         header("Location: index.php?controle=DashboardController&metodo=index");
         exit;
     }

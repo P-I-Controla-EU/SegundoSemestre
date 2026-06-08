@@ -67,23 +67,23 @@
         <div class="row g-4 mt-4">
           <div class="col-lg-4 col-md-6">
             <div class="security-card text-center fade-up">
-              <img src="https://ui-avatars.com/api/?name=Lucas+Silva&background=5e78ff&color=fff&size=128" alt="Lucas Silva" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
-              <h3 class="security-card-title mt-0">Lucas Silva</h3>
-              <p class="security-card-desc mb-0">Fundador & CEO. Desenvolvedor Full Stack apaixonado por finanças e novas tecnologias.</p>
+              <img src="assets/pereira.jpeg" alt="Guilherme Claro Pereira" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
+              <h3 class="security-card-title mt-0">Guilherme Claro Pereira</h3>
+              <p class="security-card-desc mb-0">Desenvolvedor e Idealizador</p>
             </div>
           </div>
           <div class="col-lg-4 col-md-6">
             <div class="security-card text-center fade-up" style="transition-delay: 0.08s;">
-              <img src="https://ui-avatars.com/api/?name=Mariana+Costa&background=1bb2f4&color=fff&size=128" alt="Mariana Costa" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
-              <h3 class="security-card-title mt-0">Mariana Costa</h3>
-              <p class="security-card-desc mb-0">Co-fundadora & CTO. Especialista em segurança de dados e infraestrutura em nuvem.</p>
+              <img src="assets/campanha.jpeg" alt="Gabriel Campanhã" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
+              <h3 class="security-card-title mt-0">Gabriel Campanhã</h3>
+              <p class="security-card-desc mb-0">CEO e Desenvolvedor de Front-end</p>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mx-auto">
             <div class="security-card text-center fade-up" style="transition-delay: 0.16s;">
-              <img src="https://ui-avatars.com/api/?name=Thiago+Mendes&background=0b5ed7&color=fff&size=128" alt="Thiago Mendes" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
-              <h3 class="security-card-title mt-0">Thiago Mendes</h3>
-              <p class="security-card-desc mb-0">Designer de Produto. Responsável por deixar a experiência do usuário simples e bonita.</p>
+              <img src="assets/arthur.jpeg" alt="Arthur Cabral" class="rounded-circle mb-3 mx-auto" style="width: 80px; height: 80px; object-fit: cover;">
+              <h3 class="security-card-title mt-0">Arthur Cabral</h3>
+              <p class="security-card-desc mb-0">Desenvolvedor de Back-end</p>
             </div>
           </div>
         </div>
